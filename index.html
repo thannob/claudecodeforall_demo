@@ -40,6 +40,16 @@
   .nav { padding: 24px 16px; text-align: center; }
   .logo { font-weight: 700; font-size: 22px; letter-spacing: 0.02em; color: var(--color-deep-forest); }
 
+  .banner { position: relative; width: 100%; height: 320px; overflow: hidden; }
+  .banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(14, 21, 14, 0) 55%, var(--color-cream-canvas) 100%);
+  }
+  @media (max-width: 480px) { .banner { height: 200px; } }
+
   .eyebrow {
     display: block;
     text-align: center;
@@ -241,6 +251,10 @@
   <header class="nav">
     <span class="logo">วันนี้กินอะไรดี?</span>
   </header>
+
+  <div class="banner">
+    <img src="image/pad-thai.png" alt="ผัดไทย">
+  </div>
 
   <main>
     <section class="hero">

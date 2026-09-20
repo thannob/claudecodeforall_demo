@@ -20,7 +20,7 @@ A Dish the visitor has marked as liked, persisted in `localStorage` by Dish name
 _Avoid_: Like (as a noun), saved item, bookmark
 
 **Menu**:
-The full, always-visible list of all 9 Dishes, each with its own like control. Distinct from Today's Pick, which shows only the one Dish the random button most recently selected.
+The full, always-visible list of all 12 Dishes, each with its own like control. Distinct from Today's Pick, which shows only the one Dish the random button most recently selected.
 _Avoid_: Catalog, list, all dishes
 
 **Member**:
