@@ -39,7 +39,9 @@
   .emoji { font-size: 72px; }
   .dish-name { font-size: 28px; font-weight: 700; color: var(--red); margin: 8px 0 4px; }
   .category { display: inline-block; background: var(--green); color: white; font-size: 13px; padding: 2px 12px; border-radius: 12px; margin-bottom: 12px; }
-  .desc { color: #55432c; margin-bottom: 20px; }
+  .desc { color: #55432c; margin-bottom: 8px; }
+  .detail-link { display: inline-block; color: var(--red); font-size: 14px; margin-bottom: 16px; text-decoration: none; font-weight: 600; }
+  .detail-link:hover { text-decoration: underline; }
   .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
   button {
     font-family: inherit;
@@ -105,6 +107,7 @@
     <div class="dish-name" id="name">แตะปุ่มสุ่มเพื่อเริ่ม</div>
     <div class="category" id="category" style="display:none"></div>
     <p class="desc" id="desc"></p>
+    <a class="detail-link" id="detailLink" href="#">ดูส่วนประกอบ →</a>
     <div class="buttons">
       <button class="btn-random" id="randomBtn">🎲 สุ่มอาหารไทยวันนี้</button>
       <button class="btn-like" id="likeBtn" style="display:none">🤍 ชอบเมนูนี้</button>
@@ -127,19 +130,8 @@
     <p class="empty" id="menuEmpty" style="display:none">ไม่พบเมนูที่ตรงกับการค้นหา</p>
   </div>
 
+<script src="dishes.js"></script>
 <script>
-const DISHES = [
-  { name: "ผัดไทย", emoji: "🍜", image: "image/pad-thai.png", category: "ผัด", desc: "เส้นก๋วยเตี๋ยวผัดรสเปรี้ยวหวานกับกุ้งและถั่วงอก" },
-  { name: "ต้มยำกุ้ง", emoji: "🍲", category: "ต้ม/ซุป", desc: "ซุปรสเปรี้ยวเผ็ดใส่กุ้งและสมุนไพรไทย" },
-  { name: "ส้มตำ", emoji: "🥗", category: "ยำ", desc: "ตำมะละกอดิบรสเปรี้ยวเผ็ดจัดจ้าน" },
-  { name: "แกงเขียวหวาน", emoji: "🍛", category: "แกง", desc: "แกงกะทิรสเผ็ดหวานใส่เนื้อไก่และมะเขือ" },
-  { name: "ข้าวผัดกะเพรา", emoji: "🌶️", category: "ผัด", desc: "ข้าวผัดกะเพราหมูสับใส่ไข่ดาว" },
-  { name: "มัสมั่น", emoji: "🥘", category: "แกง", desc: "แกงกะทิรสหวานมันใส่มันฝรั่งและถั่วลิสง" },
-  { name: "ข้าวเหนียวมะม่วง", emoji: "🥭", category: "ของหวาน", desc: "ข้าวเหนียวมูนคู่มะม่วงสุกหวานฉ่ำ" },
-  { name: "ข้าวซอย", emoji: "🍜", category: "เส้น", desc: "เส้นบะหมี่ในน้ำแกงกะทิเผ็ดกลิ่นเครื่องเทศเหนือ" },
-  { name: "ลาบหมู", emoji: "🥩", category: "ยำ", desc: "หมูสับคลุกเครื่องปรุงรสจัดจ้านสไตล์อีสาน" },
-];
-
 const FAV_KEY = "thaiFoodFavorites";
 let lastIndex = -1;
 let currentDish = null;
@@ -148,6 +140,7 @@ const emojiEl = document.getElementById("emoji");
 const nameEl = document.getElementById("name");
 const categoryEl = document.getElementById("category");
 const descEl = document.getElementById("desc");
+const detailLink = document.getElementById("detailLink");
 const likeBtn = document.getElementById("likeBtn");
 const randomBtn = document.getElementById("randomBtn");
 const favList = document.getElementById("favList");
@@ -156,6 +149,10 @@ const menuGrid = document.getElementById("menuGrid");
 const menuEmpty = document.getElementById("menuEmpty");
 const searchInput = document.getElementById("searchInput");
 const categorySelect = document.getElementById("categorySelect");
+
+function detailUrl(dish) {
+  return `detail.html?dish=${encodeURIComponent(dish.name)}`;
+}
 
 function dishVisual(dish, size) {
   return dish.image
@@ -245,6 +242,7 @@ function renderMenu() {
       <div class="m-name">${dish.name}</div>
       <div class="m-category">${dish.category}</div>
       <p class="m-desc">${dish.desc}</p>
+      <a class="detail-link" href="${detailUrl(dish)}">ดูส่วนประกอบ →</a><br>
     `;
     const btn = document.createElement("button");
     btn.className = "m-like" + (liked ? " active" : "");
@@ -269,6 +267,7 @@ function showDish(dish) {
   categoryEl.textContent = dish.category;
   categoryEl.style.display = "inline-block";
   descEl.textContent = dish.desc;
+  detailLink.href = detailUrl(dish);
   likeBtn.style.display = "inline-block";
   updateLikeButton();
 }
