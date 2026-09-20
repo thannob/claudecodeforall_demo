@@ -4,131 +4,272 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>วันนี้กินอะไรดี? 🍽️</title>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --gold: #d4a017;
-    --red: #c0392b;
-    --green: #27632a;
-    --cream: #fff8ec;
+    --color-deep-forest: #00473c;
+    --color-lime-glow: #e6ff55;
+    --color-sage-mist: #d8e5d6;
+    --color-warm-sand: #e8dcc6;
+    --color-cream-canvas: #f4f3e7;
+    --color-forest-shadow: #0e150e;
+    --color-warm-gray: #8c8c82;
+    --color-slate-gray: #555555;
+
+    --font-display: 'Kanit', sans-serif;
+    --font-text: 'Kanit', sans-serif;
+
+    --radius-cards: 24px;
+    --radius-images: 20px;
+    --radius-badges: 20px;
+    --radius-inputs: 8px;
+    --radius-buttons: 9999px;
+
+    --shadow-xl: rgba(14, 21, 14, 0.4) 3px 3px 32px -10px;
+
+    --page-max-width: 1200px;
   }
   * { box-sizing: border-box; }
   body {
-    font-family: 'Kanit', sans-serif;
-    background: linear-gradient(180deg, var(--cream), #ffe9c7);
+    font-family: var(--font-text);
+    background: var(--color-cream-canvas);
     margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 16px;
-    color: #3a2a1a;
+    color: var(--color-forest-shadow);
   }
-  h1 { color: var(--red); margin-bottom: 4px; }
-  .subtitle { color: #7a5c3a; margin-top: 0; margin-bottom: 32px; text-align: center; }
-  .card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    padding: 32px;
-    max-width: 420px;
-    width: 100%;
+
+  .nav { padding: 24px 16px; text-align: center; }
+  .logo { font-weight: 700; font-size: 22px; letter-spacing: 0.02em; color: var(--color-deep-forest); }
+
+  .eyebrow {
+    display: block;
     text-align: center;
-    border: 3px solid var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-deep-forest);
+    margin: 0 0 12px;
   }
-  .emoji { font-size: 72px; }
-  .dish-name { font-size: 28px; font-weight: 700; color: var(--red); margin: 8px 0 4px; }
-  .category { display: inline-block; background: var(--green); color: white; font-size: 13px; padding: 2px 12px; border-radius: 12px; margin-bottom: 12px; }
-  .desc { color: #55432c; margin-bottom: 8px; }
-  .detail-link { display: inline-block; color: var(--red); font-size: 14px; margin-bottom: 16px; text-decoration: none; font-weight: 600; }
-  .detail-link:hover { text-decoration: underline; }
-  .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  button {
-    font-family: inherit;
-    font-size: 16px;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: transform 0.1s;
+
+  .hero { padding: 24px 16px 64px; }
+  .hero-inner { max-width: 480px; margin: 0 auto; text-align: center; }
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 0.9;
+    margin: 0 0 12px;
   }
-  button:active { transform: scale(0.96); }
-  .btn-random { background: var(--red); color: white; }
-  .btn-like { background: var(--gold); color: white; }
-  .btn-like.active { background: var(--green); }
-  .favorites {
-    max-width: 420px;
-    width: 100%;
-    margin-top: 32px;
+  .hero-subtitle {
+    font-weight: 200;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: var(--color-slate-gray);
+    margin: 0 0 32px;
   }
-  .favorites h2 { color: var(--red); font-size: 18px; text-align: center; }
-  .fav-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-  .fav-item {
-    background: white;
-    border-radius: 12px;
-    padding: 10px 16px;
+
+  .pick-card {
+    background: #ffffff;
+    border-radius: var(--radius-cards);
+    padding: 32px 24px;
+    box-shadow: var(--shadow-xl);
+  }
+  .pick-visual {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 16px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    justify-content: center;
+    font-size: 64px;
+    background: var(--color-sage-mist);
+    border-radius: var(--radius-images);
+    overflow: hidden;
   }
-  .fav-remove { background: none; color: var(--red); font-size: 18px; padding: 0 6px; }
-  .empty { text-align: center; color: #a08a6f; font-size: 14px; }
-  .menu { max-width: 900px; width: 100%; margin-top: 40px; }
-  .menu h2 { color: var(--red); font-size: 18px; text-align: center; }
-  .menu-filters { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .pick-category {
+    display: inline-block;
+    background: var(--color-sage-mist);
+    color: var(--color-deep-forest);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-badges);
+    margin-bottom: 12px;
+  }
+  .pick-name {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1;
+    margin: 0 0 8px;
+  }
+  .pick-desc { font-size: 16px; line-height: 1.25; margin: 0 0 16px; }
+
+  .ghost-link {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--color-forest-shadow);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .ghost-link:hover { text-decoration: underline; }
+
+  .pick-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-pill {
+    font-family: var(--font-text);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.017em;
+    border-radius: var(--radius-buttons);
+    padding: 16px 24px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+  .btn-pill:active { transform: scale(0.96); }
+  .btn-pill--fill { background: var(--color-lime-glow); color: var(--color-forest-shadow); }
+  .btn-pill--outline { background: transparent; border-color: var(--color-deep-forest); color: var(--color-deep-forest); }
+  .btn-pill--outline.active { background: var(--color-deep-forest); color: var(--color-cream-canvas); }
+
+  .band { padding: 56px 16px; }
+  .band--sage { background: var(--color-sage-mist); }
+  .section-inner { max-width: var(--page-max-width); margin: 0 auto; }
+  .section-heading {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    text-align: center;
+    margin: 0 0 24px;
+  }
+
+  .fav-list { list-style: none; margin: 0 auto; padding: 0; max-width: 480px; display: flex; flex-direction: column; gap: 8px; }
+  .fav-item {
+    background: #ffffff;
+    border-radius: var(--radius-inputs);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fav-remove { background: none; border: none; color: var(--color-deep-forest); font-size: 18px; cursor: pointer; padding: 0 4px; }
+  .empty { text-align: center; color: var(--color-warm-gray); font-size: 14px; }
+
+  .menu-section { padding: 56px 16px; }
+  .menu-filters { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
   .menu-filters input, .menu-filters select {
-    font-family: inherit;
+    font-family: var(--font-text);
     font-size: 15px;
-    padding: 10px 14px;
-    border: 2px solid var(--gold);
-    border-radius: 10px;
-    background: white;
-    color: #3a2a1a;
+    padding: 12px 16px;
+    border: 2px solid var(--color-warm-gray);
+    border-radius: var(--radius-inputs);
+    background: #ffffff;
+    color: var(--color-forest-shadow);
   }
-  .menu-filters input { flex: 1; min-width: 180px; max-width: 260px; }
-  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
-  .menu-item { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
-  .menu-item .m-emoji { font-size: 40px; }
-  .menu-item .m-name { font-weight: 700; color: var(--red); margin: 4px 0 2px; }
-  .menu-item .m-category { display: inline-block; background: var(--green); color: white; font-size: 11px; padding: 1px 10px; border-radius: 10px; margin-bottom: 8px; }
-  .menu-item .m-desc { font-size: 13px; color: #55432c; margin-bottom: 10px; min-height: 36px; }
-  .menu-item .m-like { background: var(--gold); color: white; font-size: 14px; padding: 6px 14px; }
-  .menu-item .m-like.active { background: var(--green); }
+  .menu-filters input { flex: 1; min-width: 200px; max-width: 320px; }
+  .menu-filters input:focus, .menu-filters select:focus { outline: none; border-color: var(--color-deep-forest); }
+
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
+  .menu-item { text-align: left; }
+  .m-visual {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-images);
+    background: var(--color-sage-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .m-name { font-weight: 700; font-size: 20px; margin: 0 0 8px; }
+  .m-category {
+    display: inline-block;
+    background: var(--color-sage-mist);
+    color: var(--color-deep-forest);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-badges);
+    margin-bottom: 8px;
+  }
+  .m-desc { font-size: 16px; line-height: 1.25; margin: 0 0 16px; min-height: 40px; }
+  .m-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .m-like {
+    font-family: var(--font-text);
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: var(--radius-buttons);
+    padding: 10px 18px;
+    border: 2px solid var(--color-deep-forest);
+    background: transparent;
+    color: var(--color-deep-forest);
+    cursor: pointer;
+  }
+  .m-like.active { background: var(--color-deep-forest); color: var(--color-cream-canvas); }
+
+  @media (max-width: 480px) {
+    .page-title { font-size: 34px; }
+    .hero-subtitle { font-size: 17px; }
+    .section-heading { font-size: 26px; }
+    .pick-name { font-size: 24px; }
+  }
 </style>
 </head>
 <body>
-  <h1>วันนี้กินอะไรดี? 🍽️</h1>
-  <p class="subtitle">สุ่มเมนูอาหารไทยประจำวัน แล้วเก็บเมนูที่ชอบไว้ดูทีหลัง</p>
+  <header class="nav">
+    <span class="logo">วันนี้กินอะไรดี?</span>
+  </header>
 
-  <div class="card">
-    <div class="emoji" id="emoji">🍽️</div>
-    <div class="dish-name" id="name">แตะปุ่มสุ่มเพื่อเริ่ม</div>
-    <div class="category" id="category" style="display:none"></div>
-    <p class="desc" id="desc"></p>
-    <a class="detail-link" id="detailLink" href="#">ดูส่วนประกอบ →</a>
-    <div class="buttons">
-      <button class="btn-random" id="randomBtn">🎲 สุ่มอาหารไทยวันนี้</button>
-      <button class="btn-like" id="likeBtn" style="display:none">🤍 ชอบเมนูนี้</button>
-    </div>
-  </div>
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <span class="eyebrow">สุ่มเมนูวันนี้</span>
+        <h1 class="page-title">อาหารไทยประจำวัน</h1>
+        <p class="hero-subtitle">สุ่มเมนูอาหารไทยประจำวัน แล้วเก็บเมนูที่ชอบไว้ดูทีหลัง</p>
 
-  <div class="favorites">
-    <h2>เมนูที่ชอบ ❤️</h2>
-    <ul class="fav-list" id="favList"></ul>
-    <p class="empty" id="favEmpty">ยังไม่มีเมนูโปรด ลองสุ่มแล้วกดชอบดูสิ</p>
-  </div>
+        <div class="pick-card">
+          <div class="pick-visual" id="emoji">🍽️</div>
+          <div class="pick-category" id="category" style="display:none"></div>
+          <div class="pick-name" id="name">แตะปุ่มสุ่มเพื่อเริ่ม</div>
+          <p class="pick-desc" id="desc"></p>
+          <a class="ghost-link" id="detailLink" href="#">ดูส่วนประกอบ →</a>
+          <div class="pick-actions">
+            <button class="btn-pill btn-pill--fill" id="randomBtn">🎲 สุ่มอาหารไทยวันนี้</button>
+            <button class="btn-pill btn-pill--outline" id="likeBtn" style="display:none">🤍 ชอบเมนูนี้</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <div class="menu">
-    <h2>เมนูทั้งหมด 📋</h2>
-    <div class="menu-filters">
-      <input type="search" id="searchInput" placeholder="ค้นหาเมนู..." aria-label="ค้นหาเมนู">
-      <select id="categorySelect" aria-label="กรองตามหมวดหมู่"></select>
-    </div>
-    <div class="menu-grid" id="menuGrid"></div>
-    <p class="empty" id="menuEmpty" style="display:none">ไม่พบเมนูที่ตรงกับการค้นหา</p>
-  </div>
+    <section class="band band--sage">
+      <div class="section-inner">
+        <span class="eyebrow">เก็บไว้ดูทีหลัง</span>
+        <h2 class="section-heading">เมนูที่ชอบ</h2>
+        <ul class="fav-list" id="favList"></ul>
+        <p class="empty" id="favEmpty">ยังไม่มีเมนูโปรด ลองสุ่มแล้วกดชอบดูสิ</p>
+      </div>
+    </section>
+
+    <section class="menu-section">
+      <div class="section-inner">
+        <span class="eyebrow">เมนูทั้งหมด</span>
+        <h2 class="section-heading">เมนู</h2>
+        <div class="menu-filters">
+          <input type="search" id="searchInput" placeholder="ค้นหาเมนู..." aria-label="ค้นหาเมนู">
+          <select id="categorySelect" aria-label="กรองตามหมวดหมู่"></select>
+        </div>
+        <div class="menu-grid" id="menuGrid"></div>
+        <p class="empty" id="menuEmpty" style="display:none">ไม่พบเมนูที่ตรงกับการค้นหา</p>
+      </div>
+    </section>
+  </main>
 
 <script src="dishes.js"></script>
 <script>
@@ -155,8 +296,10 @@ function detailUrl(dish) {
 }
 
 function dishVisual(dish, size) {
+  const dim = size === "100%" ? "100%" : `${size}px`;
+  const radius = size === "100%" ? "0" : "6px";
   return dish.image
-    ? `<img src="${dish.image}" alt="${dish.name}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:12px;">`
+    ? `<img src="${dish.image}" alt="${dish.name}" style="width:${dim};height:${dim};object-fit:cover;border-radius:${radius};">`
     : dish.emoji;
 }
 
@@ -238,17 +381,19 @@ function renderMenu() {
     const div = document.createElement("div");
     div.className = "menu-item";
     div.innerHTML = `
-      <div class="m-emoji">${dishVisual(dish, 40)}</div>
-      <div class="m-name">${dish.name}</div>
+      <div class="m-visual">${dishVisual(dish, "100%")}</div>
       <div class="m-category">${dish.category}</div>
+      <div class="m-name">${dish.name}</div>
       <p class="m-desc">${dish.desc}</p>
-      <a class="detail-link" href="${detailUrl(dish)}">ดูส่วนประกอบ →</a><br>
+      <div class="m-actions">
+        <a class="ghost-link" href="${detailUrl(dish)}" style="margin-bottom:0">ดูส่วนประกอบ →</a>
+      </div>
     `;
     const btn = document.createElement("button");
     btn.className = "m-like" + (liked ? " active" : "");
     btn.textContent = liked ? "❤️ ชอบแล้ว" : "🤍 ชอบเมนูนี้";
     btn.onclick = () => toggleFavorite(dish);
-    div.appendChild(btn);
+    div.querySelector(".m-actions").appendChild(btn);
     menuGrid.appendChild(div);
   });
 }
@@ -262,7 +407,7 @@ function updateLikeButton() {
 
 function showDish(dish) {
   currentDish = dish;
-  emojiEl.innerHTML = dishVisual(dish, 96);
+  emojiEl.innerHTML = dishVisual(dish, "100%");
   nameEl.textContent = dish.name;
   categoryEl.textContent = dish.category;
   categoryEl.style.display = "inline-block";

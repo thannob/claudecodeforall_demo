@@ -4,60 +4,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>รายละเอียดเมนู 🍽️</title>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --gold: #d4a017;
-    --red: #c0392b;
-    --green: #27632a;
-    --cream: #fff8ec;
+    --color-deep-forest: #00473c;
+    --color-sage-mist: #d8e5d6;
+    --color-cream-canvas: #f4f3e7;
+    --color-forest-shadow: #0e150e;
+    --color-warm-gray: #8c8c82;
+
+    --font-display: 'Kanit', sans-serif;
+    --font-text: 'Kanit', sans-serif;
+
+    --radius-cards: 24px;
+    --radius-images: 20px;
+    --radius-badges: 20px;
+
+    --shadow-xl: rgba(14, 21, 14, 0.4) 3px 3px 32px -10px;
   }
   * { box-sizing: border-box; }
   body {
-    font-family: 'Kanit', sans-serif;
-    background: linear-gradient(180deg, var(--cream), #ffe9c7);
+    font-family: var(--font-text);
+    background: var(--color-cream-canvas);
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 40px 16px;
-    color: #3a2a1a;
+    color: var(--color-forest-shadow);
   }
-  .back-link { align-self: flex-start; max-width: 420px; width: 100%; margin: 0 auto 16px; color: var(--red); text-decoration: none; font-weight: 600; }
-  .back-link:hover { text-decoration: underline; }
-  .card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    padding: 32px;
-    max-width: 420px;
+  .ghost-link {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--color-forest-shadow);
+    text-decoration: none;
+  }
+  .ghost-link:hover { text-decoration: underline; }
+  .back-link { align-self: flex-start; max-width: 480px; width: 100%; margin: 0 auto 24px; }
+
+  .detail-card {
+    background: #ffffff;
+    border-radius: var(--radius-cards);
+    box-shadow: var(--shadow-xl);
+    padding: 32px 24px;
+    max-width: 480px;
     width: 100%;
     text-align: center;
-    border: 3px solid var(--gold);
   }
-  .emoji { font-size: 96px; }
-  .dish-name { font-size: 28px; font-weight: 700; color: var(--red); margin: 8px 0 4px; }
-  .category { display: inline-block; background: var(--green); color: white; font-size: 13px; padding: 2px 12px; border-radius: 12px; margin-bottom: 12px; }
-  .desc { color: #55432c; margin-bottom: 24px; }
+  .d-visual {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 88px;
+    background: var(--color-sage-mist);
+    border-radius: var(--radius-images);
+    overflow: hidden;
+  }
+  .d-category {
+    display: inline-block;
+    background: var(--color-sage-mist);
+    color: var(--color-deep-forest);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-badges);
+    margin-bottom: 12px;
+  }
+  .d-name {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    margin: 0 0 12px;
+  }
+  .d-desc { font-size: 16px; line-height: 1.25; margin: 0 0 24px; }
   .ingredients { text-align: left; }
-  .ingredients h2 { color: var(--red); font-size: 18px; margin-bottom: 12px; }
+  .eyebrow {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-deep-forest);
+    margin: 0 0 12px;
+  }
   .ingredients ul { margin: 0; padding-left: 20px; }
-  .ingredients li { margin-bottom: 6px; }
-  .empty { text-align: center; color: #a08a6f; }
+  .ingredients li { margin-bottom: 8px; font-size: 16px; line-height: 1.25; }
+  .empty { text-align: center; color: var(--color-warm-gray); }
 </style>
 </head>
 <body>
-  <a class="back-link" href="index.html">← กลับหน้าหลัก</a>
-  <div class="card" id="card">
+  <a class="ghost-link back-link" href="index.html">← กลับหน้าหลัก</a>
+  <div class="detail-card" id="card">
     <p class="empty">ไม่พบเมนูนี้</p>
   </div>
 
 <script src="dishes.js"></script>
 <script>
 function dishVisual(dish, size) {
+  const dim = size === "100%" ? "100%" : `${size}px`;
   return dish.image
-    ? `<img src="${dish.image}" alt="${dish.name}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:12px;">`
+    ? `<img src="${dish.image}" alt="${dish.name}" style="width:${dim};height:${dim};object-fit:cover;">`
     : dish.emoji;
 }
 
@@ -67,12 +120,12 @@ const card = document.getElementById("card");
 
 if (dish) {
   card.innerHTML = `
-    <div class="emoji">${dishVisual(dish, 96)}</div>
-    <div class="dish-name">${dish.name}</div>
-    <div class="category">${dish.category}</div>
-    <p class="desc">${dish.desc}</p>
+    <div class="d-visual">${dishVisual(dish, "100%")}</div>
+    <div class="d-category">${dish.category}</div>
+    <div class="d-name">${dish.name}</div>
+    <p class="d-desc">${dish.desc}</p>
     <div class="ingredients">
-      <h2>ส่วนประกอบ</h2>
+      <span class="eyebrow">ส่วนประกอบ</span>
       <ul>${dish.ingredients.map(i => `<li>${i}</li>`).join("")}</ul>
     </div>
   `;
