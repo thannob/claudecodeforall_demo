@@ -22,3 +22,7 @@ _Avoid_: Like (as a noun), saved item, bookmark
 **Menu**:
 The full, always-visible list of all 9 Dishes, each with its own like control. Distinct from Today's Pick, which shows only the one Dish the random button most recently selected.
 _Avoid_: Catalog, list, all dishes
+
+**Member**:
+A visitor who has registered with full name, email, and phone via the signup form. Stored as a row in the `members` table of the `thaifood` Supabase project (not `localStorage`), separate from Favorites. Registration is write-only from the site — no login, session, or member-facing data retrieval exists.
+_Avoid_: User, account, subscriber

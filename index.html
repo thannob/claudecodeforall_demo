@@ -214,6 +214,21 @@
   }
   .m-like.active { background: var(--color-deep-forest); color: var(--color-cream-canvas); }
 
+  .signup-form { max-width: 360px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .signup-form input {
+    font-family: var(--font-text);
+    font-size: 15px;
+    padding: 12px 16px;
+    border: 2px solid var(--color-warm-gray);
+    border-radius: var(--radius-inputs);
+    background: #ffffff;
+    color: var(--color-forest-shadow);
+  }
+  .signup-form input:focus { outline: none; border-color: var(--color-deep-forest); }
+  .signup-status { text-align: center; font-size: 14px; margin-top: 12px; min-height: 20px; }
+  .signup-status.error { color: #b3261e; }
+  .signup-status.success { color: var(--color-deep-forest); }
+
   @media (max-width: 480px) {
     .page-title { font-size: 34px; }
     .hero-subtitle { font-size: 17px; }
@@ -269,10 +284,29 @@
         <p class="empty" id="menuEmpty" style="display:none">ไม่พบเมนูที่ตรงกับการค้นหา</p>
       </div>
     </section>
+
+    <section class="band band--sage">
+      <div class="section-inner">
+        <span class="eyebrow">เข้าร่วมกับเรา</span>
+        <h2 class="section-heading">สมัครสมาชิก</h2>
+        <form class="signup-form" id="signupForm">
+          <input type="text" id="signupName" placeholder="ชื่อ-นามสกุล" required>
+          <input type="email" id="signupEmail" placeholder="อีเมล" required>
+          <input type="tel" id="signupPhone" placeholder="เบอร์โทรศัพท์" required>
+          <button type="submit" class="btn-pill btn-pill--fill" id="signupBtn">สมัครสมาชิก</button>
+        </form>
+        <p class="signup-status" id="signupStatus"></p>
+      </div>
+    </section>
   </main>
 
 <script src="dishes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "https://mozeriqbbcssmzwupend.supabase.co";
+const SUPABASE_KEY = "sb_publishable_VGZkwfMv45SS0DgGHIYSMA_AOVHVmOn";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const FAV_KEY = "thaiFoodFavorites";
 let lastIndex = -1;
 let currentDish = null;
@@ -425,6 +459,33 @@ function pickRandomDish() {
   lastIndex = index;
   showDish(DISHES[index]);
 }
+
+const signupForm = document.getElementById("signupForm");
+const signupBtn = document.getElementById("signupBtn");
+const signupStatus = document.getElementById("signupStatus");
+
+signupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  signupBtn.disabled = true;
+  signupStatus.textContent = "";
+  signupStatus.className = "signup-status";
+
+  const full_name = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const phone = document.getElementById("signupPhone").value.trim();
+
+  const { error } = await supabaseClient.from("members").insert({ full_name, email, phone });
+
+  signupBtn.disabled = false;
+  if (error) {
+    signupStatus.textContent = error.message.includes("duplicate") ? "อีเมลนี้สมัครสมาชิกไปแล้ว" : error.message;
+    signupStatus.className = "signup-status error";
+  } else {
+    signupStatus.textContent = "สมัครสมาชิกสำเร็จ!";
+    signupStatus.className = "signup-status success";
+    signupForm.reset();
+  }
+});
 
 randomBtn.addEventListener("click", pickRandomDish);
 likeBtn.addEventListener("click", () => currentDish && toggleFavorite(currentDish));

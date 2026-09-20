@@ -6,4 +6,5 @@
 - [x] Favorites list section with remove
 - [x] Full Menu grid (all 9 dishes) with per-dish like toggle, synced with Today's Pick
 - [x] Domain glossary (`CONTEXT.md`): Dish, Category, Today's Pick, Favorite, Menu
+- [x] Member registration form (name/email/password) backed by Supabase Auth (`thaifood` project)
 - [ ] Manual browser check (Chrome extension wasn't connected during build — logic verified via Node script instead)

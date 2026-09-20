@@ -17,6 +17,7 @@ There is no build, lint, or test tooling in this repo. To check changes, open `i
 - `detail.html` — reads a `?dish=<name>` query param, looks up the matching entry in `DISHES`, and renders its `ingredients` list. Linked from both the random-pick card and each menu item via `detailUrl(dish)`.
 - `image/` — dish photos referenced by the optional `image` field on a `DISHES` entry.
 - Favorites are the only persisted state: stored in `localStorage` under key `thaiFoodFavorites` as an array of `{name, emoji}`, keyed by dish `name`. `index.html` and `detail.html` do not share state beyond this key — there is no other client-side storage or server.
+- Member registration (`index.html`, "สมัครสมาชิก" form) is the one exception to "no backend": it inserts directly into the `members` table (`full_name`, `email`, `phone`) of the `thaifood` Supabase project via `@supabase/supabase-js` (CDN), using the project's publishable key (safe to expose client-side). RLS on `members` only grants `anon` `INSERT` — no `SELECT`/`UPDATE`/`DELETE` policy exists, so the site can register members but never read them back. There is no login/session UI.
 
 ## Domain language
 
